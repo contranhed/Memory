@@ -1,9 +1,13 @@
 import './App.css';
+import Greeting from './components/Greeting/Greeting';
+import MemoryBoard from './components/MemoryBoard/MemoryBoard';
 
 function App() {
+
   return (
     <div className="App">
-      <h1>Hej</h1>
+      <Greeting />
+      <MemoryBoard />
     </div>
   );
 }
