@@ -1,28 +1,28 @@
-.card {
+.Card {
   position: relative;
 }
 
-/* .card img {
-  width: 100%;
+.Card img {
   display: block;
-} */
+}
 
-.FrontCard, .BackCard {
+.FrontCard {
   height: 180px;
-  margin: 5px;
 }
 
 .BackCard {
-  border-radius: 6px;
+  height: 180px;
+  width: 130px;
+  border-radius: 10px;
 }
 
-.card, .BackCard {
-  transform: rotateY(90deg);
+.Card .FrontCard {
   position: absolute;
-}
+  transform: rotateY(90deg);
+} 
 
-.flip, .BackCard {
+.flip .FrontCard {
   transform: rotateY(0deg);
-}
+} 
 
 

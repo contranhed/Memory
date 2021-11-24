@@ -9,10 +9,12 @@
 }
 
 body {
-  width: 100%;
+  width: 1400px;
   height: 100vh;
   display: grid;
-  font-family: 'Monda', sans-serif;
-}
+  place-content: center;  
+   font-family: 'Monda', sans-serif;
+} 
+
 
 

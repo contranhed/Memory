@@ -5,8 +5,8 @@ import './MemoryBoard.css'
 
 const MemoryBoard = () => {
   const [deck, setDeck] = useState([]) 
-  const [firstCard, setFirstCard] = useState(null)
-  const [secondCard, setSecondCard] = useState(null)
+  const [firstCard, setFirstCard] = useState(null) // Will store reference to the first chosen card.
+  const [secondCard, setSecondCard] = useState(null) // Will store reference to the second chosen card.
   
   /**
    * 
@@ -16,11 +16,10 @@ const MemoryBoard = () => {
     fetchData('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1')
   }, [])
 
-
   /**
    * 
    * @function fetchData grab hold of five unique cards and store them in a variable.
-   * @param {*} url to the deck of cards API
+   * @param {*} url to the deck of cards API.
    */
   const fetchData = async (url) => {
     try {
@@ -30,27 +29,34 @@ const MemoryBoard = () => {
       const newData = await cardRes.json() // Translate the data to JSON and store in new variable.
       const cards = newData.cards // Grab hold of the individual card objects and store them in a variable that holds and array
       const cardsCopy = [...cards] // Create a copy of the elements in the cards array
-      const miniDeck = cards.concat(cardsCopy) // Combine the two in a new object that is an array.
-      shuffleCards(miniDeck) // Function call that passes in the deck of five cards.
+      const miniDeck = cards.concat(cardsCopy) // Combine the two into a new array object.
+      shuffleCards(miniDeck) // Function call that passes in the deck of ten cards.
     } catch(e) { // Error handling
       console.log('Could not retrieve a deck of cards')
       console.log(e)
     }
   }
 
-  const handleChoice = (choice) => {
-    firstCard ? setSecondCard(choice) : setFirstCard(choice) // ternary operator to check the player's choice of card.
+  /**
+   * 
+   * @function handleChoice checks the player's choice of cards.
+   * @param {*} choice the card the player chose
+   */  
+  const handleChoice = (choice) => { 
+    console.log(choice)
+    // Check: Is the firstCard null? If not, update the state for secondCard. If yes, update the state for firstCard.
+    firstCard ? setSecondCard(choice) : setFirstCard(choice) 
   }
 
-  useEffect(() => { // Fires everytime a dependency changes.
-    if (firstCard && secondCard) { // Check if the first and second cards are the same
-      if(firstCard.value === secondCard.value) { // Check if the value of the card is the same.
+  useEffect(() => { // Fires everytime a dependency changes through handleChoice function, i.e. firstCard and secondCard.
+    if (firstCard && secondCard) { // Check if the firstCard and secondCard have values.
+      if(firstCard.value === secondCard.value) { // Check if the value of the cards are the same.
         console.log('there is a match')
-        setDeck((prev) => { // Set a new array of cards
-          return prev.map(card => { // Return a new array
-            if (card.value === firstCard.value) { // Check if there is a match of cards.
+        setDeck((prev) => { // Update the state of the deck through the passing of the previous state.
+          return prev.map(card => { // Return a new array.
+            if (card.value === firstCard.value) { // Check if there is a match of cards in the mapped array and the chosen firstCard.
               return { ...card, match: true} // If there is a match, return a new object and set the match property to true
-            } else { // If not, return the card without change.
+            } else { // If not, return the card without updating any state.
               return card
             }
           })
@@ -58,16 +64,14 @@ const MemoryBoard = () => {
         resetCards() // Function call to reset the states of the first and second card.
       } else {
         console.log('that was not a match')
-        setTimeout(() => resetCards(), 1000) // Delay the turn of card to 1 second.
+        setTimeout(() => resetCards(), 1000) // Delay the turn of cards by 1 second.
       }
     }
-  }, [firstCard, secondCard]) // When a card is selected it will fire the function in this useEffect
-
-  console.log(deck)
+  }, [firstCard, secondCard]) //The states that might change and this function needs access of.
 
   /**
    * 
-   * @function resetCards reset the states of the first and second cards
+   * @function resetCards reset the states of firstCard and secondCard by passing in the value of null and no longer has the prop flip.
    */
   const resetCards = () => {
     setFirstCard(null)
@@ -76,31 +80,30 @@ const MemoryBoard = () => {
 
   /**
    * 
-   * @function shuffleCards Combines two of the same array objects into one array, shuffles the order of cards and provides each a unique number. 
-   * @param {*} cards array object with five cards.
+   * @function shuffleCards Shuffles the order of cards in the array that was passed in as an argument and provides each card with a random id. 
+   * @param {*} cards array object with ten cards.
    */
   const shuffleCards = (cards) => {
     const shuffledCards = [...cards] // Spread operator to access all the elements in the array
     .sort(() => Math.random() -0.5) // Shuffle the cards in this array.
-    .map((cards) => ({...cards, id: Math.random(), match: false})) // Give each card a unique id.
-    setDeck(shuffledCards) // Set the deck in the random order and with unique id:s.
+    .map((cards, i) => ({...cards, id: i, match: false})) // Give each card a random id number. NB! Have not used Math floor to make it even more unlikely of a match of ids, though there, as of now, is a slight chance of such happening.
+    setDeck(shuffledCards) // Set the deck in the random order and with the id:s.
   }
-  console.log(deck)
 
   return (
     <div className="MemoryBoard-container">
       {/* Loop through the array that holds the deck with ten cards */}
-      {deck.map((card) => (
-        // Create a card with the use of a Card component.
-        <Card 
+      {deck.length === 10 ? deck.map((card) => ( // Conditional to check if the deck contains ten cards. If so, map though the array of cards.
+        <Card  // Create a card with the use of a Card component.
           key={card.id} // Pass in the unique id for the card.
           image={card.image} // Pass in the card object image.
-          handleChoice={handleChoice} // Pass in the function with the chosen card.
+          handleChoice={handleChoice} // Pass in a function that manages the logic with chosen cards.
           card={card} // Pass in the card object
-          flip={card === firstCard || card === secondCard || card.match} // The image of the card should be faced up when the player chooses first and second card PLUS keep already matched cards faced up.
+          // The card shall face up if the iterated card equals the firstCard, the secondCard or if the match property of tje card object is set to true .
+          flip={card === firstCard || card === secondCard || card.match} 
         />
-      ))}
-      
+        // Conditional: Display loading until cards are rendered.
+      )) : <p>Loading...</p>} 
     </div>
   )
 }
