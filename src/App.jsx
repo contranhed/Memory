@@ -1,6 +1,6 @@
-import './App.css';
-import Greeting from './components/Greeting/Greeting';
-import MemoryBoard from './components/MemoryBoard/MemoryBoard';
+import './App.css'
+import Greeting from './components/Greeting/Greeting'
+import MemoryBoard from './components/MemoryBoard/MemoryBoard'
 
 function App() {
 
@@ -9,7 +9,7 @@ function App() {
       <Greeting />
       <MemoryBoard />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

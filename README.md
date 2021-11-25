@@ -3,7 +3,7 @@ This application was built as the second assignment three weeks into the JavaScr
 
 
 ### Game logic
-A human player is presented with ten card, all faced down. The player clicks on two cards. If is a match in terms of value and suit, the cards will remain faced up and the player can choose two new cards. If the chosen cards do not match, they will flip again faced down after a second. The game goes on until the player has matched all cards.
+A human player is presented with ten cards, all faced down. The player clicks on two cards. If it's a match in terms of value and suit, the cards will remain faced up and the player can choose two new cards. If the chosen cards do not match, they will flip again faced down after a second. The game goes on until the player has matched all cards.
 
 
 ### The code logic

@@ -23,11 +23,11 @@ const MemoryBoard = () => {
    */
   const fetchData = async (url) => {
     try {
-      const res = await fetch(url) // Fetch the deck of card and store it in a variable when the promise has been resolved.
+      const res = await fetch(url) // Fetch the deck of cards and store it in a variable when the promise has been resolved.
       const data = await res.json() // Translate the data to JSON and store in a new variable when the promise has been resolved.
       const cardRes = await fetch(
         `https://deckofcardsapi.com/api/deck/${data.deck_id}/draw/?count=5`
-      ) // Fetch five cars and store them in a variable when the promise has been resolved.
+      ) // Fetch five cards and store them in a variable when the promise has been resolved.
       const newData = await cardRes.json() // Translate the data to JSON and store in new variable.
       const cards = newData.cards // Grab hold of the individual card objects and store them in a variable that holds an array.
       const cardsCopy = [...cards] // Create a copy of the elements in the cards array.
@@ -97,10 +97,10 @@ const MemoryBoard = () => {
             <Card // Create a card with the use of a Card component.
               key={card.id} // Pass in the id for the card to enable rendering and avoid complaints from the browser.
               image={card.image} // Pass in the card image and make it accessible in the Card component.
-              handleChoice={handleChoice} // Pass in a function that help manage the logic with chosen cards and make the function accessible in the Card component.
+              handleChoice={handleChoice} // Pass in a function that helps manage the logic with chosen cards and make the function accessible in the Card component.
               card={card} // Pass in the card object and make it accessible in the Card component.
               // The card shall face up if the iterated card equals the card stored in firstCard (same for the secondCard) or if the match property of the card object is set to true.
-              flip={card === firstCard || card === secondCard || card.match} // Pass in flip as ab argument and make it accessible in the Card component. It manages three conditions that regard the turn of cards.
+              flip={card === firstCard || card === secondCard || card.match} // Pass in flip as an argument and make it accessible in the Card component. It manages three conditions that regard the turn of cards.
             />
           )
         )

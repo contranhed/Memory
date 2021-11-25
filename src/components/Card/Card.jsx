@@ -1,5 +1,5 @@
 import './Card.css'
-
+import CardBack from '../../images/CardBack.jpg'
 
 const Card = ({ image, card, handleChoice, flip }) => {
 
@@ -19,7 +19,7 @@ const Card = ({ image, card, handleChoice, flip }) => {
         {image && <img className="FrontCard" src={image} alt="Card front" /> } 
         <img
           className="BackCard"
-          src="https://images.unsplash.com/photo-1560015534-cee980ba7e13?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+          src={CardBack}
           onClick={handleClick} // Function that, based on a click event, passes in which card the player chose.
           alt="Back of a card"
         />
